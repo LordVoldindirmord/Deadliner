@@ -1,0 +1,56 @@
+﻿@model List<TagViewModel>
+@{
+    ViewData["Title"] = "Теги";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/tags.css" asp-append-version="true" />
+}
+
+<div class="tags-page">
+    <div class="tags-page__header">
+        <h1 class="tags-page__title">Теги</h1>
+        <a class="btn btn--primary" asp-action="Create">+ Новый тег</a>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="validation-summary-errors">@TempData["Error"]</div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="tags-page__empty">
+            <p>У вас пока нет тегов.</p>
+            <a class="btn btn--primary" asp-action="Create">Создать первый тег</a>
+        </div>
+    }
+    else
+    {
+        <div class="tags-list">
+            @foreach (var tag in Model)
+            {
+                <div class="tag-card">
+                    <div class="tag-card__left">
+                        <span class="tag-card__dot" style="background-color: @tag.ColorHex"></span>
+                        <div class="tag-card__info">
+                            <span class="tag-card__name">@tag.Name</span>
+                            <span class="tag-card__count">@tag.ActiveTaskCount задач</span>
+                        </div>
+                    </div>
+                    <div class="tag-card__right">
+                        <a class="btn btn--small btn--outline" asp-action="Edit" asp-route-tagId="@tag.Id">Ред.</a>
+                        <form asp-action="Delete" asp-route-tagId="@tag.Id" method="post" class="tag-card__delete-form">
+                            <button type="submit" class="btn btn--small btn--danger" onclick="return confirm('Удалить тег «@tag.Name»? Все задачи в нём тоже удалятся.')">Удалить</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

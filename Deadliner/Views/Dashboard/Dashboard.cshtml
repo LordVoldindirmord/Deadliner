@@ -1,0 +1,128 @@
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = "Дашборд";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard">
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+    }
+    <div class="dashboard__header">
+        <h1 class="dashboard__title">Дашборд</h1>
+        <a class="btn btn--primary" asp-controller="Task" asp-action="Create">+ Новая задача</a>
+    </div>
+
+    @if (Model.TaskGroups == null || !Model.TaskGroups.Any())
+    {
+        <div class="dashboard__empty">
+            <p>У вас пока нет задач.</p>
+            <a class="btn btn--primary" asp-controller="Task" asp-action="Create">Создать первую задачу</a>
+        </div>
+    }
+    else
+    {
+        <div class="counters">
+            <div class="counter counter--active">
+                <span class="counter__value">@Model.ActiveCount</span>
+                <span class="counter__label">Активные</span>
+            </div>
+            <div class="counter counter--overdue">
+                <span class="counter__value">@Model.OverdueCount</span>
+                <span class="counter__label">Просрочены</span>
+            </div>
+            <div class="counter counter--completed">
+                <span class="counter__value">@Model.CompletedCount</span>
+                <span class="counter__label">Выполнены</span>
+            </div>
+            <div class="counter counter--cancelled">
+                <span class="counter__value">@Model.CancelledCount</span>
+                <span class="counter__label">Отменены</span>
+            </div>
+        </div>
+
+        <div class="dashboard__limit">
+            <span>Показывать задач:</span>
+            <div class="limit-input">
+                <button type="button" class="limit-input__btn" onclick="changeLimit(-1)">−</button>
+                <input type="number" id="limitInput" value="@(Context.Request.Query["limit"].FirstOrDefault() ?? "10")"
+                       min="1" max="100" class="limit-input__field" onchange="applyLimit()" />
+                <button type="button" class="limit-input__btn" onclick="changeLimit(1)">+</button>
+            </div>
+        </div>
+
+        <div class="task-groups">
+            @foreach (var group in Model.TaskGroups)
+            {
+                <div class="task-group">
+                    <div class="task-group__header">
+                        <span class="task-group__dot" style="background-color: @group.ColorHex"></span>
+                        <h2 class="task-group__title">
+                            <a asp-controller="Task" asp-action="Index" asp-route-tagId="@group.TagId">
+                                @group.TagName
+                            </a>
+                        </h2>
+                        <span class="task-group__count">Количество задач: @group.Tasks.Count</span>
+                    </div>
+
+                    <div class="task-group__list">
+                        @foreach (var task in group.Tasks)
+                        {
+                            <a class="task-card @(task.IsOverdue ? "task-card--overdue" : "")"
+                               asp-controller="Task" asp-action="Details" asp-route-taskId="@task.Id">
+                                <div class="task-card__left">
+                                    <span class="task-card__priority priority--@task.Priority.ToString().ToLower()">
+                                        @task.Priority
+                                    </span>
+                                </div>
+                                <div class="task-card__center">
+                                    <span class="task-card__title">@task.Title</span>
+                                    @if (task.Deadline != null)
+                                    {
+                                        <span class="task-card__deadline @(task.IsOverdue ? "task-card__deadline--overdue" : "")">
+                                            @task.Deadline?.ToString("dd MMM yyyy")
+                                        </span>
+                                    }
+                                </div>
+                                <div class="task-card__right">
+                                    @if (task.IsOverdue)
+                                    {
+                                        <span class="badge badge--overdue">Просрочена</span>
+                                    }
+                                </div>
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function changeLimit(delta) {
+            const input = document.getElementById('limitInput');
+            let value = parseInt(input.value) || 10;
+            value = Math.max(1, Math.min(100, value + delta));
+            input.value = value;
+            applyLimit();
+        }
+
+        function applyLimit() {
+            const input = document.getElementById('limitInput');
+            let value = parseInt(input.value);
+    
+            if (isNaN(value) || value < 1) {
+                value = 1;
+                input.value = 1;
+            }
+    
+            window.location.href = '?limit=' + value;
+        }
+    </script>
+}

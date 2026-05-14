@@ -1,0 +1,179 @@
+﻿.details-page {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.details-page__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.details-page__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.details-page__form {
+    margin: 0;
+}
+
+/* ===== Card ===== */
+.details-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 28px;
+}
+
+.details-card__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.details-card__title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+    word-break: break-word;
+}
+
+.details-card__badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.details-card__tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #374151;
+    margin-bottom: 20px;
+}
+
+.details-card__tag-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.details-card__description {
+    margin-bottom: 24px;
+}
+
+    .details-card__description h3 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #6b7280;
+        margin: 0 0 6px;
+    }
+
+    .details-card__description p {
+        font-size: 15px;
+        color: #374151;
+        line-height: 1.6;
+        margin: 0;
+        white-space: pre-wrap;
+    }
+
+.details-card__dates {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 20px;
+}
+
+.details-card__date {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.details-card__date-label {
+    color: #9ca3af;
+}
+
+.details-card__date-value {
+    color: #374151;
+    font-weight: 500;
+}
+
+.details-card__date--overdue .details-card__date-value {
+    color: #ef4444;
+}
+
+.details-card__date--completed .details-card__date-value {
+    color: #10b981;
+}
+
+/* ===== Badges ===== */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: lowercase;
+}
+
+.badge--low {
+    background-color: #f3f4f6;
+    color: #6b7280;
+}
+
+.badge--medium {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+
+.badge--high {
+    background-color: #fde8e8;
+    color: #ef4444;
+}
+
+.badge--critical {
+    background-color: #ede9fe;
+    color: #7c3aed;
+}
+
+.badge--active {
+    background-color: #dbeafe;
+    color: #2563eb;
+}
+
+.badge--completed {
+    background-color: #d1fae5;
+    color: #059669;
+}
+
+.badge--cancelled {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+}
+
+.badge--overdue {
+    background-color: #fde8e8;
+    color: #ef4444;
+}
+
+.validation-summary-errors {
+    color: #e74c3c;
+    background-color: #fde8e8;
+    border: 1px solid #e74c3c;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}

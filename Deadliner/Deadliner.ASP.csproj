@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Deadliner.DAL\Deadliner.DAL.csproj" />
+    <ProjectReference Include="..\Deadliner.Domain\Deadliner.Domain.csproj" />
+    <ProjectReference Include="..\Deadliner.Service\Deadliner.Service.csproj" />
+  </ItemGroup>
+
+</Project>

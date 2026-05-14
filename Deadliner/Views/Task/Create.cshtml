@@ -1,0 +1,76 @@
+﻿@model TaskCreateViewModel
+@{
+    ViewData["Title"] = "Новая задача";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/task-form.css" asp-append-version="true" />
+}
+
+<div class="task-form-page">
+    <div class="task-form-page__header">
+        <h1 class="task-form-page__title">Новая задача</h1>
+        <a class="btn btn--outline btn--small" asp-action="Index">← Назад</a>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+    }
+
+    <form asp-action="Create" method="post" class="task-form">
+        <div class="form-group">
+            <label asp-for="Title">Название</label>
+            <input asp-for="Title" type="text" placeholder="Что нужно сделать?" />
+            <span asp-validation-for="Title" class="field-validation-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description">Описание</label>
+            <textarea asp-for="Description" rows="4" placeholder="Подробности (необязательно)"></textarea>
+            <span asp-validation-for="Description" class="field-validation-error"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group form-group--half">
+                <label asp-for="Priority">Приоритет</label>
+                <select asp-for="Priority">
+                    <option value="Low">Низкий</option>
+                    <option value="Medium" selected>Средний</option>
+                    <option value="High">Высокий</option>
+                    <option value="Critical">Критичный</option>
+                </select>
+                <span asp-validation-for="Priority" class="field-validation-error"></span>
+            </div>
+
+            <div class="form-group form-group--half">
+                <label asp-for="Deadline">Дедлайн</label>
+                <input asp-for="Deadline" type="datetime-local" />
+                <span asp-validation-for="Deadline" class="field-validation-error"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="TagId">Тег</label>
+            <select asp-for="TagId">
+                <option value="">-- Выберите тег --</option>
+                @if (ViewBag.Tags != null)
+                {
+                    @foreach (var tag in ViewBag.Tags as IEnumerable<TagViewModel>)
+                    {
+                        <option value="@tag.Id">@tag.Name</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="TagId" class="field-validation-error"></span>
+        </div>
+
+        <button type="submit" class="btn btn--primary">Создать задачу</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

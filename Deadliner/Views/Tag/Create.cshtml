@@ -1,0 +1,45 @@
+﻿@model TagCreateViewModel
+@{
+    ViewData["Title"] = "Создание тега";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/tag-form.css" asp-append-version="true" />
+}
+
+<div class="tag-form-page">
+    <div class="tag-form-page__header">
+        <h1 class="tag-form-page__title">Новый тег</h1>
+        <a class="btn btn--outline btn--small" asp-action="Index">← Назад</a>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+    }
+
+    <form asp-action="Create" method="post" class="tag-form">
+        <div class="form-group">
+            <label asp-for="Name">Название</label>
+            <input asp-for="Name" type="text" placeholder="Например: Работа" />
+            <span asp-validation-for="Name" class="field-validation-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ColorHex">Цвет</label>
+            <div class="color-picker">
+                <input asp-for="ColorHex" type="color" value="#6C757D" />
+                <input asp-for="ColorHex" type="text" placeholder="#6C757D" maxlength="7" />
+            </div>
+            <span asp-validation-for="ColorHex" class="field-validation-error"></span>
+        </div>
+
+        <button type="submit" class="btn btn--primary">Создать</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

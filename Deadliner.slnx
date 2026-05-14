@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/DAL/">
+    <Project Path="Deadliner.DAL/Deadliner.DAL.csproj" />
+  </Folder>
+  <Folder Name="/Domain/">
+    <Project Path="Deadliner.Domain/Deadliner.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Service/">
+    <Project Path="Deadliner.Service/Deadliner.Service.csproj" />
+  </Folder>
+  <Project Path="Deadliner/Deadliner.ASP.csproj" />
+</Solution>

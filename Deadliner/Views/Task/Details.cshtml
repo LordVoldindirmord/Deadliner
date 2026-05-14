@@ -1,0 +1,85 @@
+﻿@model TaskDetailViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/task-details.css" asp-append-version="true" />
+}
+
+<div class="details-page">
+    <div class="details-page__header">
+        <a class="btn btn--outline btn--small" asp-action="Index">← Назад</a>
+        <div class="details-page__actions">
+            @if (Model.Status == Deadliner.Domain.Enum.TasksStatus.Active)
+            {
+                <form asp-action="Complete" asp-route-taskId="@Model.Id" method="post" class="details-page__form">
+                    <button type="submit" class="btn btn--success">Выполнить</button>
+                </form>
+            }
+            <a class="btn btn--outline" asp-action="Edit" asp-route-taskId="@Model.Id">Редактировать</a>
+            <form asp-action="Delete" asp-route-taskId="@Model.Id" method="post" class="details-page__form">
+                <button type="submit" class="btn btn--danger"
+                        onclick="return confirm('Удалить задачу «@Model.Title»?')">
+                    Удалить
+                </button>
+            </form>
+        </div>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+    }
+
+    <div class="details-card">
+        <div class="details-card__top">
+            <h1 class="details-card__title">@Model.Title</h1>
+            <div class="details-card__badges">
+                <span class="badge badge--@Model.Priority.ToString().ToLower()">@Model.Priority</span>
+                <span class="badge badge--@Model.Status.ToString().ToLower()">@Model.Status</span>
+                @if (Model.IsOverdue)
+                {
+                    <span class="badge badge--overdue">Просрочена</span>
+                }
+            </div>
+        </div>
+
+        @if (Model.Tag != null)
+        {
+            <div class="details-card__tag">
+                <span class="details-card__tag-dot" style="background-color: @Model.Tag.ColorHex"></span>
+                <span>@Model.Tag.Name</span>
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <div class="details-card__description">
+                <h3>Описание</h3>
+                <p>@Model.Description</p>
+            </div>
+        }
+
+        <div class="details-card__dates">
+            @if (Model.Deadline != null)
+            {
+                <div class="details-card__date @(Model.IsOverdue ? "details-card__date--overdue" : "")">
+                    <span class="details-card__date-label">Дедлайн</span>
+                    <span class="details-card__date-value">@Model.Deadline?.ToString("dd MMMM yyyy, HH:mm")</span>
+                </div>
+            }
+            <div class="details-card__date">
+                <span class="details-card__date-label">Создана</span>
+                <span class="details-card__date-value">@Model.CreatedAt.ToString("dd MMMM yyyy, HH:mm")</span>
+            </div>
+            @if (Model.CompletedAt != null)
+            {
+                <div class="details-card__date details-card__date--completed">
+                    <span class="details-card__date-label">Выполнена</span>
+                    <span class="details-card__date-value">@Model.CompletedAt?.ToString("dd MMMM yyyy, HH:mm")</span>
+                </div>
+            }
+        </div>
+    </div>
+</div>

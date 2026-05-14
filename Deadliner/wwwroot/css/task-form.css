@@ -1,0 +1,86 @@
+﻿.task-form-page {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.task-form-page__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.task-form-page__title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.task-form {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 28px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="datetime-local"],
+    .form-group textarea,
+    .form-group select {
+        padding: 10px 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 15px;
+        outline: none;
+        transition: border-color 0.2s;
+        font-family: inherit;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+    }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #4a6cf7;
+            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+        }
+
+.form-row {
+    display: flex;
+    gap: 16px;
+}
+
+.form-group--half {
+    flex: 1;
+}
+
+.field-validation-error {
+    color: #e74c3c;
+    font-size: 13px;
+    min-height: 18px;
+}
+
+.validation-summary-errors {
+    color: #e74c3c;
+    background-color: #fde8e8;
+    border: 1px solid #e74c3c;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}

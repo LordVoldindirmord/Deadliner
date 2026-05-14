@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — Deadliner</title>
+    <link rel="stylesheet" href="~/css/reset.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="layout">
+        <header class="header">
+            <a class="header__logo" asp-controller="Dashboard" asp-action="Dashboard">Deadliner</a>
+            <nav class="header__nav">
+                <a class="header__link" asp-controller="Dashboard" asp-action="Dashboard">Дашборд</a>
+                <a class="header__link" asp-controller="Task" asp-action="Index">Задачи</a>
+                <a class="header__link" asp-controller="Tag" asp-action="Index">Теги</a>
+            </nav>
+            <div class="header__user">
+                <span class="header__username">@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value</span>
+                <form asp-controller="User" asp-action="Logout" method="post" class="header__logout-form">
+                    <button type="submit" class="header__logout">Выйти</button>
+                </form>
+            </div>
+        </header>
+
+        <main class="main">
+            @RenderBody()
+        </main>
+
+        <footer class="footer">
+            <span>&copy; 2026 Deadliner</span>
+        </footer>
+    </div>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,97 @@
+﻿.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 60px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header__logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: #4a6cf7;
+    text-decoration: none;
+}
+
+.header__nav {
+    display: flex;
+    gap: 24px;
+}
+
+.header__link {
+    color: #374151;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+    .header__link:hover {
+        color: #4a6cf7;
+    }
+
+.header__user {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header__username {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.header__logout {
+    color: #ef4444;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+    .header__logout:hover {
+        text-decoration: underline;
+    }
+
+.main {
+    flex: 1;
+    padding: 24px;
+    background-color: #f9fafb;
+}
+
+.footer {
+    padding: 16px 24px;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 13px;
+    border-top: 1px solid #e5e7eb;
+    background-color: #ffffff;
+}
+
+
+.header__logout-form {
+    margin: 0;
+}
+
+.header__logout {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+}
+
+    .header__logout:hover {
+        text-decoration: underline;
+    }

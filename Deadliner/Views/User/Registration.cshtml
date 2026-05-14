@@ -1,0 +1,50 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Регистрация";
+    Layout = "_AuthLayout";
+}
+
+<div class="auth-container">
+    <h1 class="auth-title">Регистрация</h1>
+
+    <form asp-action="Registration" method="post">
+        <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+
+        <div class="form-group">
+            <label asp-for="Login">Login</label>
+            <input asp-for="Login" type="text" placeholder="Введите Login" />
+            <span asp-validation-for="Login" class="field-validation-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" type="text" placeholder="example@mail.ru" />
+            <span asp-validation-for="Email" class="field-validation-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password">Пароль</label>
+            <input asp-for="Password" type="password" placeholder="Минимум 6 символов" />
+            <span asp-validation-for="Password" class="field-validation-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ConfirmPassword">Подтверждение пароля</label>
+            <input asp-for="ConfirmPassword" type="password" placeholder="Повторите пароль" />
+            <span asp-validation-for="ConfirmPassword" class="field-validation-error"></span>
+        </div>
+
+        <button type="submit" class="btn-submit">Зарегистрироваться</button>
+    </form>
+
+    <p class="auth-link">
+        Уже есть аккаунт? <a asp-action="Login">Войти</a>
+    </p>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

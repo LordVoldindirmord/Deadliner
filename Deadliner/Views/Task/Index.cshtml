@@ -1,0 +1,141 @@
+﻿@model TaskListViewModel
+@{
+    ViewData["Title"] = "Задачи";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/tasks.css" asp-append-version="true" />
+}
+
+<div class="tasks-page">
+    <div class="tasks-page__header">
+        <h1 class="tasks-page__title">Задачи</h1>
+        <a class="btn btn--primary" asp-action="Create">+ Новая задача</a>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="validation-summary-errors">@TempData["Error"]</div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+    }
+
+    <form asp-action="Index" method="get" class="filters">
+        <div class="filters__row">
+            <div class="filters__item">
+                <label>Поиск</label>
+                <input type="text" name="SearchQuery" placeholder="Название задачи..."
+                       value="@Context.Request.Query["SearchQuery"]" />
+            </div>
+            <div class="filters__item">
+                <label>Приоритет</label>
+                <select name="Priority">
+                    <option value="">Все</option>
+                    <option value="Low" selected="@(Context.Request.Query["Priority"] == "Low")">Низкий</option>
+                    <option value="Medium" selected="@(Context.Request.Query["Priority"] == "Medium")">Средний</option>
+                    <option value="High" selected="@(Context.Request.Query["Priority"] == "High")">Высокий</option>
+                    <option value="Critical" selected="@(Context.Request.Query["Priority"] == "Critical")">Критичный</option>
+                </select>
+            </div>
+            <div class="filters__item">
+                <label>Статус</label>
+                <select name="Status">
+                    <option value="">Все</option>
+                    <option value="Active" selected="@(Context.Request.Query["Status"] == "Active")">Активные</option>
+                    <option value="Completed" selected="@(Context.Request.Query["Status"] == "Completed")">Выполненные</option>
+                    <option value="Cancelled" selected="@(Context.Request.Query["Status"] == "Cancelled")">Отменённые</option>
+                </select>
+            </div>
+            <div class="filters__item">
+                <label>Сортировка</label>
+                <select name="SortBy">
+                    <option value="deadline" selected="@(Context.Request.Query["SortBy"] == "deadline")">По дедлайну</option>
+                    <option value="priority" selected="@(Context.Request.Query["SortBy"] == "priority")">По приоритету</option>
+                    <option value="created_at" selected="@(Context.Request.Query["SortBy"] == "created_at")">По дате создания</option>
+                </select>
+            </div>
+            <div class="filters__item">
+                <label>&nbsp;</label>
+                <select name="SortDirection">
+                    <option value="asc" selected="@(Context.Request.Query["SortDirection"] != "desc")">По возрастанию</option>
+                    <option value="desc" selected="@(Context.Request.Query["SortDirection"] == "desc")">По убыванию</option>
+                </select>
+            </div>
+        </div>
+        <div class="filters__row">
+            <label class="filters__checkbox">
+                <input type="checkbox" name="OverdueOnly" value="true"
+                @(Context.Request.Query["OverdueOnly"] == "true" ? "checked" : "") />
+                Только просроченные
+            </label>
+            <button type="submit" class="btn btn--primary btn--small">Применить</button>
+            <a asp-action="Index" class="btn btn--outline btn--small">Сбросить</a>
+        </div>
+    </form>
+
+    <div class="tasks-page__count">
+        Найдено задач: <strong>@Model.TotalCount</strong>
+    </div>
+
+    @if (Model.Tasks == null || !Model.Tasks.Any())
+    {
+        <div class="tasks-page__empty">
+            <p>Задач не найдено.</p>
+        </div>
+    }
+    else
+    {
+        <div class="tasks-list">
+            @foreach (var task in Model.Tasks)
+            {
+                <div class="task-row @(task.IsOverdue ? "task-row--overdue" : "")">
+                    <div class="task-row__left">
+                        <span class="priority-dot priority-dot--@task.Priority.ToString().ToLower()"
+                              title="@task.Priority"></span>
+                        <div class="task-row__info">
+                            <a class="task-row__title" asp-action="Details" asp-route-taskId="@task.Id">
+                                @task.Title
+                            </a>
+                            <div class="task-row__meta">
+                                @if (task.Tag != null)
+                                {
+                                    <span class="task-row__tag" style="color: @task.Tag.ColorHex">
+                                        @task.Tag.Name
+                                    </span>
+                                }
+                                @if (task.Deadline != null)
+                                {
+                                    <span class="task-row__deadline @(task.IsOverdue ? "task-row__deadline--overdue" : "")">
+                                        @task.Deadline?.ToString("dd MMM yyyy")
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-row__right">
+                        @if (task.IsOverdue)
+                        {
+                            <span class="badge badge--overdue">Просрочена</span>
+                        }
+                        @if (task.Status == Deadliner.Domain.Enum.TasksStatus.Active)
+                        {
+                            <form asp-action="Completed" asp-route-taskId="@task.Id" method="post" class="task-row__form">
+                                <button type="submit" class="btn btn--small btn--success">Выполнить</button>
+                            </form>
+                        }
+                        <a class="btn btn--small btn--outline" asp-action="Edit" asp-route-taskId="@task.Id">Ред.</a>
+                        <form asp-action="Delete" asp-route-taskId="@task.Id" method="post" class="task-row__form">
+                            <button type="submit" class="btn btn--small btn--danger"
+                                    onclick="return confirm('Удалить задачу «@task.Title»?')">
+                                Удалить
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
