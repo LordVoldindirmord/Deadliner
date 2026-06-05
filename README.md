@@ -16,6 +16,56 @@
 
 
 
+
+###### **Скриншоты:**
+**Дашборд:**
+<img width="1917" height="1072" alt="image" src="https://github.com/user-attachments/assets/63d005db-49df-499f-8137-b36e08a20b1a" />
+
+
+
+
+**Список тегов:**
+<img width="1920" height="1076" alt="image" src="https://github.com/user-attachments/assets/34633674-fec8-4251-88eb-653f679fc6fe" />
+
+
+
+
+**Управление тегами:**
+<img width="1920" height="1083" alt="{75F716A4-B2C8-47FE-A085-ED815D6334E7}" src="https://github.com/user-attachments/assets/34a25abc-35cf-4961-9dd5-d9c308ca085d" />
+
+
+
+
+**Список задач с фильтрацией:**
+<img width="1920" height="1071" alt="image" src="https://github.com/user-attachments/assets/c03c34d1-c16a-4303-9399-0e28da23ea90" />
+
+
+
+
+**Управление задачами:**
+<img width="1920" height="1077" alt="image" src="https://github.com/user-attachments/assets/511c6379-2f5c-4e9e-82e2-e899f6c99e88" />
+
+
+
+
+**Привязка Telegram на сайте:**
+<img width="1920" height="1077" alt="{B85D77BB-7F38-44BC-B2F3-84844A3FE2DA}" src="https://github.com/user-attachments/assets/93abcbac-ab49-4094-b61c-b612e576af5f" />
+
+
+
+
+**Привязанный Telegram аккаунт:**
+<img width="1190" height="1135" alt="{87E11315-94EA-49ED-B960-23139CF4646A}" src="https://github.com/user-attachments/assets/d7890c40-e8c6-4ad0-9f9b-ae980e39843e" />
+
+
+
+
+**Создание задачи или тега через бота:**
+<img width="1189" height="1035" alt="{8BEC8809-D5C2-4EAB-8DF7-839312CCE1A9}" src="https://github.com/user-attachments/assets/c75b7c87-82ee-49c9-a50f-3a66e5618531" />
+
+
+
+
 ###### **Архитектура проекта:**
 
 1. Deadliner.Domain — сущности базы данных, ViewModel для фронта, DTO для Telegram, перечисления (Enum). Не зависит от других слоёв.
