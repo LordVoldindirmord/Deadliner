@@ -412,16 +412,15 @@ namespace Deadliner.Service.Implementations
         /// <param name="userFilterTasks">Отфильтрованные задачи пользователя</param>
         /// <param name="userAllTags">Все теги пользователя</param>
         /// <returns>Модель списка задач</returns>
-        private static TaskListViewModel ToTaskList(IEnumerable<UserTask> userFilterTasks, IEnumerable<Tag> userAllTags) =>
-            new TaskListViewModel
+        private static TaskListViewModel ToTaskList(IEnumerable<UserTask> userFilterTasks, IEnumerable<Tag> userAllTags)
+        {
+            // Строим словарь тегов для быстрого поиска
+            var tagDict = userAllTags.ToDictionary(t => t.Id);
+
+            var tasks = userFilterTasks.Select(task =>
             {
-                TotalCount = userFilterTasks.Count(),
-                Tasks = userFilterTasks
-                .Join(
-                userAllTags,
-                task => task.TagId,
-                tag => tag.Id,
-                (task, tag) => new TaskDetailViewModel
+                tagDict.TryGetValue(task.TagId, out var tag);
+                return new TaskDetailViewModel
                 {
                     Id = task.Id,
                     Title = task.Title,
@@ -432,15 +431,21 @@ namespace Deadliner.Service.Implementations
                     CompletedAt = task.CompletedAt,
                     CreatedAt = task.CreatedAt,
                     IsOverdue = task.Status == TasksStatus.Active && task.Deadline != null && task.Deadline < DateTime.Now,
-                    Tag = new TagInfoViewModel
+                    Tag = tag != null ? new TagInfoViewModel
                     {
                         Id = tag.Id,
                         Name = tag.Name,
                         ColorHex = tag.ColorHex,
-                    }
-                })
-                .ToList(),
+                    } : null!
+                };
+            }).ToList();
+
+            return new TaskListViewModel
+            {
+                TotalCount = tasks.Count,
+                Tasks = tasks
             };
+        }
 
         private static TaskDetailViewModel ToTaskDetail(UserTask userTask, TagInfoViewModel tagInfo) =>
             new TaskDetailViewModel
