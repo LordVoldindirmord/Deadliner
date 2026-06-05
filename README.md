@@ -37,7 +37,7 @@
 
 
 **Список задач с фильтрацией:**
-<img width="1920" height="1071" alt="image" src="https://github.com/user-attachments/assets/c03c34d1-c16a-4303-9399-0e28da23ea90" />
+<img width="1917" height="1075" alt="{D44E3929-6C91-4BE2-B72C-3EEBBDCEE51E}" src="https://github.com/user-attachments/assets/e84b8b04-d74f-42af-885c-b68ea8b7ba2a" />
 
 
 
