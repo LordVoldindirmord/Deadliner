@@ -1,0 +1,54 @@
+﻿@model TelegramBindingDto
+@{
+    ViewData["Title"] = "Привязка Telegram";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/telegram.css" asp-append-version="true" />
+}
+
+<div class="telegram-page">
+    <h1 class="telegram-page__title">Привязка Telegram</h1>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="validation-summary-errors">@TempData["Error"]</div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+    }
+
+    @if (Model == null)
+    {
+        <div class="telegram-page__empty">
+            <p>Не удалось загрузить данные.</p>
+        </div>
+    }
+    else if (Model.IsBound)
+    {
+        <div class="telegram-card telegram-card--bound">
+            <div class="telegram-card__icon">✅</div>
+            <h2>Telegram привязан</h2>
+            <p>Привязан: @Model.BindedAt?.ToString("dd MMMM yyyy")</p>
+            <form asp-action="Unbind" method="post">
+                <button type="submit" class="btn btn--danger"
+                        onclick="return confirm('Отвязать Telegram? Бот больше не сможет присылать уведомления.')">
+                    Отвязать Telegram
+                </button>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="telegram-card telegram-card--unbound">
+            <div class="telegram-card__icon">🤖</div>
+            <h2>Telegram не привязан</h2>
+            <p>Привяжите Telegram, чтобы получать уведомления о задачах и управлять ими через бота.</p>
+            <form asp-action="CreateBind" method="post">
+                <button type="submit" class="btn btn--primary">Привязать Telegram</button>
+            </form>
+        </div>
+    }
+</div>

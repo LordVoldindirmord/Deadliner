@@ -8,5 +8,8 @@
   <Folder Name="/Service/">
     <Project Path="Deadliner.Service/Deadliner.Service.csproj" />
   </Folder>
+  <Folder Name="/Telegram/">
+    <Project Path="TelegramBot/TelegramBot.csproj" Id="41b962a3-1e44-41db-876f-fd7d53a44db5" />
+  </Folder>
   <Project Path="Deadliner/Deadliner.ASP.csproj" />
 </Solution>

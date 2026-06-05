@@ -9,8 +9,8 @@ namespace Deadliner.Service.Implementations
 {
     public class TagService : ITagService
     {
-        ITagRepository _tagRepository;
-        ITaskRepository _taskRepository;
+        private readonly ITagRepository _tagRepository;
+        private readonly ITaskRepository _taskRepository;
 
         public TagService(ITagRepository tagRepository, ITaskRepository taskRepository)
         {

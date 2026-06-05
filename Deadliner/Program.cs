@@ -42,6 +42,7 @@ namespace Deadliner
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ITaskRepository, TaskRepository>();
             builder.Services.AddScoped<ITagRepository, TagRepository>();
+            builder.Services.AddScoped<ITelegramBindingRepository, TelegramBindingRepository>();
 
             #endregion
 
@@ -50,6 +51,7 @@ namespace Deadliner
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ITaskService, TaskService>();
             builder.Services.AddScoped<ITagService, TagService>();
+            builder.Services.AddScoped<ITelegramBindingService, TelegramBindingService>();
 
             #endregion
 

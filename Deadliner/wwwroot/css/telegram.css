@@ -1,0 +1,117 @@
+﻿.telegram-page {
+
+    max-width: 500px;
+
+    margin: 40px auto;
+
+}
+
+
+
+.telegram-page__title {
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: var(--color-text-heading);
+
+    margin-bottom: 24px;
+
+}
+
+
+
+.telegram-page__empty {
+
+    text-align: center;
+
+    padding: 40px 0;
+
+    color: var(--color-text-muted);
+
+}
+
+
+
+.telegram-card {
+
+    background: var(--color-bg-elevated);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: 12px;
+
+    padding: 32px;
+
+    text-align: center;
+
+}
+
+
+
+.telegram-card__icon {
+
+    font-size: 48px;
+
+    margin-bottom: 16px;
+
+    display: inline-block;
+
+    animation: scaleIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+}
+
+
+
+.telegram-card h2 {
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+    color: var(--color-text-heading);
+
+    margin: 0 0 8px;
+
+}
+
+
+
+.telegram-card p {
+
+    color: var(--color-text-muted);
+
+    font-size: 14px;
+
+    margin: 0 0 20px;
+
+    line-height: 1.5;
+
+}
+
+
+
+.telegram-card__expire {
+
+    font-size: 13px;
+
+    color: var(--color-text-subtle);
+
+    margin-top: 16px !important;
+
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .telegram-card__icon {
+
+        animation: none;
+
+    }
+
+}
+
+

@@ -1,0 +1,116 @@
+:root,
+[data-theme="light"] {
+    color-scheme: light;
+
+    --color-bg: #f4f6fb;
+    --color-bg-elevated: #ffffff;
+    --color-bg-muted: #f3f4f6;
+    --color-bg-subtle: #f9fafb;
+    --color-bg-hover: #eef0f4;
+    --color-border: #e5e7eb;
+    --color-border-strong: #d1d5db;
+    --color-text: #374151;
+    --color-text-heading: #111827;
+    --color-text-muted: #6b7280;
+    --color-text-subtle: #9ca3af;
+    --color-primary: #4a6cf7;
+    --color-primary-hover: #3b5de7;
+    --color-primary-ring: rgba(74, 108, 247, 0.12);
+    --color-danger: #ef4444;
+    --color-danger-hover: #dc2626;
+    --color-success: #10b981;
+    --color-success-hover: #059669;
+    --color-error-bg: #fde8e8;
+    --color-error-border: #e74c3c;
+    --color-error-text: #e74c3c;
+    --color-input-bg: #ffffff;
+    --color-input-text: #111827;
+    --header-bg: rgba(255, 255, 255, 0.82);
+    --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 4px 24px rgba(15, 23, 42, 0.08);
+    --shadow-card-hover: 0 12px 32px rgba(15, 23, 42, 0.1);
+    --shadow-auth: 0 8px 40px rgba(15, 23, 42, 0.08);
+    --badge-overdue-bg: #fde8e8;
+    --badge-overdue-text: #ef4444;
+    --badge-low-bg: #f3f4f6;
+    --badge-low-text: #6b7280;
+    --badge-medium-bg: #fef3c7;
+    --badge-medium-text: #d97706;
+    --badge-high-bg: #fde8e8;
+    --badge-high-text: #ef4444;
+    --badge-critical-bg: #ede9fe;
+    --badge-critical-text: #7c3aed;
+    --badge-active-bg: #dbeafe;
+    --badge-active-text: #2563eb;
+    --badge-completed-bg: #d1fae5;
+    --badge-completed-text: #059669;
+    --badge-cancelled-bg: #f3f4f6;
+    --badge-cancelled-text: #9ca3af;
+    --theme-toggle-bg: #eef0f4;
+    --theme-toggle-border: #d1d5db;
+    --theme-toggle-thumb: #ffffff;
+    --theme-toggle-icon: #6b7280;
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+
+    --color-bg: #0c0e14;
+    --color-bg-elevated: #161922;
+    --color-bg-muted: #1e2230;
+    --color-bg-subtle: #12151d;
+    --color-bg-hover: #252a3a;
+    --color-border: #2a3040;
+    --color-border-strong: #3a4155;
+    --color-text: #c9cdd8;
+    --color-text-heading: #eef0f6;
+    --color-text-muted: #9399ab;
+    --color-text-subtle: #6b7280;
+    --color-primary: #6b8cff;
+    --color-primary-hover: #5578f5;
+    --color-primary-ring: rgba(107, 140, 255, 0.18);
+    --color-danger: #f87171;
+    --color-danger-hover: #ef4444;
+    --color-success: #34d399;
+    --color-success-hover: #10b981;
+    --color-error-bg: rgba(239, 68, 68, 0.12);
+    --color-error-border: #f87171;
+    --color-error-text: #fca5a5;
+    --color-input-bg: #1e2230;
+    --color-input-text: #eef0f6;
+    --header-bg: rgba(12, 14, 20, 0.85);
+    --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.45);
+    --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.5);
+    --shadow-auth: 0 12px 48px rgba(0, 0, 0, 0.55);
+    --badge-overdue-bg: rgba(239, 68, 68, 0.15);
+    --badge-overdue-text: #fca5a5;
+    --badge-low-bg: rgba(107, 114, 128, 0.2);
+    --badge-low-text: #9ca3af;
+    --badge-medium-bg: rgba(245, 158, 11, 0.15);
+    --badge-medium-text: #fbbf24;
+    --badge-high-bg: rgba(239, 68, 68, 0.15);
+    --badge-high-text: #fca5a5;
+    --badge-critical-bg: rgba(124, 58, 237, 0.15);
+    --badge-critical-text: #a78bfa;
+    --badge-active-bg: rgba(37, 99, 235, 0.15);
+    --badge-active-text: #93c5fd;
+    --badge-completed-bg: rgba(16, 185, 129, 0.15);
+    --badge-completed-text: #6ee7b7;
+    --badge-cancelled-bg: rgba(107, 114, 128, 0.15);
+    --badge-cancelled-text: #9ca3af;
+    --theme-toggle-bg: #252a3a;
+    --theme-toggle-border: #3a4155;
+    --theme-toggle-thumb: #6b8cff;
+    --theme-toggle-icon: #eef0f6;
+}
+
+html {
+    transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: background-color 0.35s ease, color 0.35s ease;
+}

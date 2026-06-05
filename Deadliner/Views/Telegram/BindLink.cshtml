@@ -1,0 +1,26 @@
+﻿@model TelegramTokenDTO
+@{
+    ViewData["Title"] = "Привязка Telegram";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/telegram.css" asp-append-version="true" />
+}
+
+<div class="telegram-page">
+    <h1 class="telegram-page__title">Привязка Telegram</h1>
+
+    <div class="telegram-card telegram-card--link">
+        <div class="telegram-card__icon">🔗</div>
+        <h2>Перейдите по ссылке</h2>
+        <p>Нажмите на кнопку ниже, чтобы открыть бота и завершить привязку:</p>
+
+        <a href="@Model.DeepLink" class="btn btn--primary telegram-link" target="_blank">
+            Открыть бота в Telegram
+        </a>
+
+        <p class="telegram-card__expire">
+            Ссылка действительна до: @Model.ExpiresAt.ToString("HH:mm")
+        </p>
+    </div>
+</div>

@@ -13,7 +13,6 @@ namespace Deadliner.DAL.Repositories
         protected readonly DbSet<T> _dbSet;
         protected readonly DeadlinerDbContext _context;
 
-
         protected BaseRepository(DeadlinerDbContext context)
         {
             _context = context;

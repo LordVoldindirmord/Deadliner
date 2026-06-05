@@ -37,32 +37,5 @@ namespace Deadliner.DAL.Repositories
                 .Select(x => ValueTuple.Create(x.tag, x.count))
                 .ToListAsync();
         }
-
-        //public async Task Test()
-        //{
-        //    var tags = _dbSet;
-        //    var users = _context.Users;
-
-        //    var result = users
-        //        .GroupJoin(
-        //        tags,
-        //        u => u.Id,
-        //        t => t.UserId,
-        //        (user, tag) => new
-        //        {
-        //            UserId = user.Id,
-        //            UserLogin = user.Login,
-        //            UserEmail = user.Email,
-        //            Tags = tag,
-        //        });
-
-        //    foreach(var item in result)
-        //    {
-        //        Console.WriteLine($"({item.UserId}): {item.UserLogin}");
-
-        //        foreach (var item2 in item.Tags)
-        //            Console.WriteLine($"\t\t\t({item2.Id}): {item2.Name} - ({item2.UserId})");
-        //    }
-        //}
     }
 }

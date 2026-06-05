@@ -8,13 +8,15 @@ namespace Deadliner.DAL.Context;
 
 public partial class DeadlinerDbContext : DbContext
 {
-    public DeadlinerDbContext(DbContextOptions<DeadlinerDbContext> options) : base(options) { }
-
     public virtual DbSet<Tag> Tags { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserTask> UserTasks { get; set; }
+
+    public virtual DbSet<TelegramBinding> TelegramBindings { get; set; }
+
+    public DeadlinerDbContext(DbContextOptions<DeadlinerDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -128,6 +130,39 @@ public partial class DeadlinerDbContext : DbContext
             entity.HasOne(d => d.Tag).WithMany(p => p.UserTasks)
                 .HasForeignKey(d => d.TagId)
                 .HasConstraintName("user_tasks_tag_id_fkey");
+        });
+
+        modelBuilder.Entity<TelegramBinding>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("telegram_bindings_pkey");
+
+            entity.ToTable("telegram_bindings");
+
+            entity.HasIndex(e => e.TelegramChatId, "idx_telegram_bindings_chat_id");
+
+            entity.HasIndex(e => e.BindCode, "idx_telegram_bindings_code");
+
+            entity.HasIndex(e => e.UserId, "idx_telegram_bindings_user_id");
+
+            entity.HasIndex(e => e.BindCode, "telegram_bindings_bind_code_key").IsUnique();
+
+            entity.HasIndex(e => e.TelegramChatId, "telegram_bindings_telegram_chat_id_key").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.BindCode)
+                .HasMaxLength(64)
+                .HasColumnName("bind_code");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at");
+            entity.Property(e => e.TelegramChatId).IsRequired(false).HasColumnName("telegram_chat_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.TelegramBindings)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("telegram_bindings_user_id_fkey");
         });
     }
 

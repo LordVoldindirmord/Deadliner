@@ -12,8 +12,8 @@ namespace Deadliner.Service.Implementations
 {
     public class TaskService : ITaskService
     {
-        ITaskRepository _taskRepository;
-        ITagRepository _tagRepository;
+        private readonly ITaskRepository _taskRepository;
+        private readonly ITagRepository _tagRepository;
 
         public TaskService(ITaskRepository taskRepository, ITagRepository tagRepository)
         {
