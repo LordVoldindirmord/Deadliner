@@ -11,5 +11,8 @@
   <Folder Name="/Telegram/">
     <Project Path="TelegramBot/TelegramBot.csproj" Id="41b962a3-1e44-41db-876f-fd7d53a44db5" />
   </Folder>
+  <Folder Name="/xUnitTests/">
+    <Project Path="UnitTests/UnitTests.csproj" Id="44adb1d6-fb0a-4fdf-80f7-336944eb65ab" />
+  </Folder>
   <Project Path="Deadliner/Deadliner.ASP.csproj" />
 </Solution>

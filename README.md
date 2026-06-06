@@ -13,7 +13,7 @@
 * аутентификация: ASP.NET Core Cookies
 * Telegram-бот: Telegram.Bot
 * UI: Razor Views.
-
+* тестирование: xUnit, Moq
 
 
 
@@ -23,10 +23,8 @@
 
 
 
-
 **Список тегов:**
 <img width="1920" height="1076" alt="image" src="https://github.com/user-attachments/assets/34633674-fec8-4251-88eb-653f679fc6fe" />
-
 
 
 
@@ -35,10 +33,8 @@
 
 
 
-
 **Список задач с фильтрацией:**
 <img width="1917" height="1075" alt="{D44E3929-6C91-4BE2-B72C-3EEBBDCEE51E}" src="https://github.com/user-attachments/assets/e84b8b04-d74f-42af-885c-b68ea8b7ba2a" />
-
 
 
 
@@ -47,10 +43,8 @@
 
 
 
-
 **Привязка Telegram на сайте:**
 <img width="1920" height="1077" alt="{B85D77BB-7F38-44BC-B2F3-84844A3FE2DA}" src="https://github.com/user-attachments/assets/93abcbac-ab49-4094-b61c-b612e576af5f" />
-
 
 
 
@@ -59,10 +53,8 @@
 
 
 
-
 **Создание задачи или тега через бота:**
 <img width="1189" height="1035" alt="{8BEC8809-D5C2-4EAB-8DF7-839312CCE1A9}" src="https://github.com/user-attachments/assets/c75b7c87-82ee-49c9-a50f-3a66e5618531" />
-
 
 
 
@@ -73,6 +65,18 @@
 3. Deadliner.Service — бизнес-логика, валидация, вызов репозиториев, формирование BaseResponse. Ссылается на DAL и Domain.
 4. Deadliner.ASP — веб-приложение на ASP.NET Core MVC. Контроллеры, представления Razor, статические файлы. Ссылается на Service и Domain.
 5. TelegramBot — консольное приложение Telegram-бота. Использует те же DAL и Service, что и веб-приложение.
+
+
+
+###### **Тестирование:**
+
+Проект покрыт модульными тестами (44 теста). Используются xUnit и Moq. Тесты находятся в проекте UnitTests и покрывают все три сервиса:
+
+* UserService — регистрация, вход, получение профиля, удаление.
+* TagService — создание, редактирование, удаление, получение тегов, проверка владельца.
+* TaskService — создание, обновление, удаление, выполнение задач, дашборд, фильтрация.
+
+Для тестирования используются mock-объекты репозиториев.
 
 
 
@@ -112,4 +116,3 @@
 * tags — теги (название, цвет, привязка к пользователю).
 * user\_tasks — задачи (заголовок, описание, приоритет, статус, дедлайн, дата выполнения, привязка к тегу).
 * telegram\_bindings — привязка Telegram-аккаунтов (токен, chat\_id, привязка к пользователю).
-
