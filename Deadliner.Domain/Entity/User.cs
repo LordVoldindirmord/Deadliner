@@ -15,7 +15,11 @@ public partial class User
 
     public DateTime CreatedAt { get; set; }
 
+    public bool EmailConfirmed { get; set; }
+
     public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
     public virtual ICollection<TelegramBinding> TelegramBindings { get; set; } = new List<TelegramBinding>();
+
+    public virtual ICollection<UserToken> UserTokens { get; set; } = new List<UserToken>();
 }

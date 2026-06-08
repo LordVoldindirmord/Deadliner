@@ -1,215 +1,276 @@
-﻿using Deadliner.Domain.Entity;
-using Deadliner.Domain.Enum;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿    using Deadliner.Domain.Entity;
+    using Deadliner.Domain.Enum;
+    using Microsoft.EntityFrameworkCore;
 
-namespace Deadliner.DAL.Context;
+    namespace Deadliner.DAL.Context;
 
-public partial class DeadlinerDbContext : DbContext
-{
-    public virtual DbSet<Tag> Tags { get; set; }
-
-    public virtual DbSet<User> Users { get; set; }
-
-    public virtual DbSet<UserTask> UserTasks { get; set; }
-
-    public virtual DbSet<TelegramBinding> TelegramBindings { get; set; }
-
-    public DeadlinerDbContext(DbContextOptions<DeadlinerDbContext> options) : base(options) { }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public partial class DeadlinerDbContext : DbContext
     {
-        modelBuilder.Entity<Tag>(entity =>
+        public virtual DbSet<Tag> Tags { get; set; }
+
+        public virtual DbSet<User> Users { get; set; }
+
+        public virtual DbSet<UserTask> UserTasks { get; set; }
+
+        public virtual DbSet<TelegramBinding> TelegramBindings { get; set; }
+
+        public virtual DbSet<UserToken> UserTokens { get; set; }
+
+        public DeadlinerDbContext(DbContextOptions<DeadlinerDbContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            entity.HasKey(e => e.Id).HasName("tags_pkey");
+            modelBuilder.Entity<Tag>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("tags_pkey");
 
-            entity.ToTable("tags");
+                entity.ToTable("tags");
 
-            entity.HasIndex(e => e.UserId, "idx_tags_user_id");
+                entity.HasIndex(e => e.UserId, "idx_tags_user_id");
 
-            entity.HasIndex(e => new { e.Name, e.UserId }, "uq_tags_name_user").IsUnique();
+                entity.HasIndex(e => new { e.Name, e.UserId }, "uq_tags_name_user").IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.ColorHex)
-                .HasMaxLength(7)
-                .HasDefaultValueSql("'#6C757D'::bpchar")
-                .IsFixedLength()
-                .HasColumnName("color_hex");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_at");
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .HasColumnName("name");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.ColorHex)
+                    .HasMaxLength(7)
+                    .HasDefaultValueSql("'#6C757D'::bpchar")
+                    .IsFixedLength()
+                    .HasColumnName("color_hex");
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("now()")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("created_at");
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .HasColumnName("name");
+                entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Tags)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("tags_user_id_fkey");
-        });
+                entity.HasOne(d => d.User).WithMany(p => p.Tags)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("tags_user_id_fkey");
+            });
 
-        modelBuilder.Entity<User>(entity =>
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("users_pkey");
+
+                entity.ToTable("users");
+
+                entity.HasIndex(e => e.Email, "idx_users_email");
+
+                entity.HasIndex(e => e.Id, "idx_users_id");
+
+                entity.HasIndex(e => e.Login, "idx_users_login");
+
+                entity.HasIndex(e => e.Email, "users_email_key").IsUnique();
+
+                entity.HasIndex(e => e.Login, "users_login_key").IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("now()")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("created_at");
+                entity.Property(e => e.Email)
+                    .HasMaxLength(255)
+                    .HasColumnName("email");
+                entity.Property(e => e.Login)
+                    .HasMaxLength(100)
+                    .HasColumnName("login");
+                entity.Property(e => e.PasswordHash)
+                    .HasMaxLength(255)
+                    .HasColumnName("password_hash");
+                entity.Property(e => e.EmailConfirmed)
+                .HasColumnName("email_confirmed")
+                .HasDefaultValue(false);
+            });
+
+            modelBuilder.Entity<UserTask>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("user_tasks_pkey");
+
+                entity.ToTable("user_tasks");
+
+                entity.HasIndex(e => e.Deadline, "idx_tasks_deadline");
+
+                entity.HasIndex(e => e.Status, "idx_tasks_status");
+
+                entity.HasIndex(e => e.TagId, "idx_tasks_tag_id");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.CompletedAt)
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("completed_at");
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("now()")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("created_at");
+                entity.Property(e => e.Deadline)
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("deadline");
+                entity.Property(e => e.Description).HasColumnName("description");
+                entity.Property(e => e.Priority)
+                    .HasMaxLength(20)
+                    .HasDefaultValueSql("'medium'::character varying")
+                    .HasColumnName("priority")
+                    .HasConversion( // enum не сгенерировались, делаем ручками
+                    e => ConvertPriorityToString(e), // enum -> БД
+                    e => ConvertStringToPriority(e)); // БД -> enum
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(20)
+                    .HasDefaultValueSql("'active'::character varying")
+                    .HasColumnName("status")
+                    .HasConversion( // enum не сгенерировался, тоже для конвертации
+                    e => ConvertStatusToString(e), // enum -> БД
+                    e => ConvertStringToStatus(e)); // БД -> enum
+
+                entity.Property(e => e.TagId).HasColumnName("tag_id");
+                entity.Property(e => e.Title)
+                    .HasMaxLength(500)
+                    .HasColumnName("title");
+
+                entity.HasOne(d => d.Tag).WithMany(p => p.UserTasks)
+                    .HasForeignKey(d => d.TagId)
+                    .HasConstraintName("user_tasks_tag_id_fkey");
+            });
+
+            modelBuilder.Entity<TelegramBinding>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("telegram_bindings_pkey");
+
+                entity.ToTable("telegram_bindings");
+
+                entity.HasIndex(e => e.TelegramChatId, "idx_telegram_bindings_chat_id");
+
+                entity.HasIndex(e => e.BindCode, "idx_telegram_bindings_code");
+
+                entity.HasIndex(e => e.UserId, "idx_telegram_bindings_user_id");
+
+                entity.HasIndex(e => e.BindCode, "telegram_bindings_bind_code_key").IsUnique();
+
+                entity.HasIndex(e => e.TelegramChatId, "telegram_bindings_telegram_chat_id_key").IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.BindCode)
+                    .HasMaxLength(64)
+                    .HasColumnName("bind_code");
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("now()")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("created_at");
+                entity.Property(e => e.TelegramChatId).IsRequired(false).HasColumnName("telegram_chat_id");
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.User).WithMany(p => p.TelegramBindings)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("telegram_bindings_user_id_fkey");
+            });
+
+            modelBuilder.Entity<UserToken>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("user_tokens_pkey");
+
+                entity.ToTable("user_tokens");
+
+                entity.HasIndex(e => e.Token, "idx_user_tokens_token");
+
+                entity.HasIndex(e => e.UserId, "idx_user_tokens_user_id");
+
+                entity.HasIndex(e => e.Token, "user_tokens_token_key").IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("now()")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("created_at");
+                entity.Property(e => e.ExpiresAt)
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("expires_at");
+                entity.Property(e => e.IsUsed).HasColumnName("is_used");
+                entity.Property(e => e.Token)
+                    .HasMaxLength(128)
+                    .HasColumnName("token");
+                entity.Property(e => e.TokenType)
+                    .HasMaxLength(20)
+                    .HasColumnName("token_type")
+                    .HasConversion(
+                    e => ConvertUserTokenTypeToString(e), // enum -> БД
+                    e => ConvertStringToUserTokenType(e)); // БД -> enum
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.User).WithMany(p => p.UserTokens)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("user_tokens_user_id_fkey");
+            });
+        }
+
+        // Вспомогательные методы для конвертации enum
+        private static string ConvertPriorityToString(PriorityStatus priority)
         {
-            entity.HasKey(e => e.Id).HasName("users_pkey");
+            return priority switch
+            {
+                PriorityStatus.Low => "low",
+                PriorityStatus.Medium => "medium",
+                PriorityStatus.High => "high",
+                PriorityStatus.Critical => "critical",
+                _ => throw new ArgumentOutOfRangeException(nameof(priority), priority, "Неизвестный приоритет")
+            };
+        }
 
-            entity.ToTable("users");
-
-            entity.HasIndex(e => e.Email, "idx_users_email");
-
-            entity.HasIndex(e => e.Id, "idx_users_id");
-
-            entity.HasIndex(e => e.Login, "idx_users_login");
-
-            entity.HasIndex(e => e.Email, "users_email_key").IsUnique();
-
-            entity.HasIndex(e => e.Login, "users_login_key").IsUnique();
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_at");
-            entity.Property(e => e.Email)
-                .HasMaxLength(255)
-                .HasColumnName("email");
-            entity.Property(e => e.Login)
-                .HasMaxLength(100)
-                .HasColumnName("login");
-            entity.Property(e => e.PasswordHash)
-                .HasMaxLength(255)
-                .HasColumnName("password_hash");
-        });
-
-        modelBuilder.Entity<UserTask>(entity =>
+        private static PriorityStatus ConvertStringToPriority(string value)
         {
-            entity.HasKey(e => e.Id).HasName("user_tasks_pkey");
+            return value switch
+            {
+                "low" => PriorityStatus.Low,
+                "medium" => PriorityStatus.Medium,
+                "high" => PriorityStatus.High,
+                "critical" => PriorityStatus.Critical,
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, "Неизвестный приоритет в БД")
+            };
+        }
 
-            entity.ToTable("user_tasks");
-
-            entity.HasIndex(e => e.Deadline, "idx_tasks_deadline");
-
-            entity.HasIndex(e => e.Status, "idx_tasks_status");
-
-            entity.HasIndex(e => e.TagId, "idx_tasks_tag_id");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CompletedAt)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("completed_at");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_at");
-            entity.Property(e => e.Deadline)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("deadline");
-            entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.Priority)
-                .HasMaxLength(20)
-                .HasDefaultValueSql("'medium'::character varying")
-                .HasColumnName("priority")
-                .HasConversion( // enum не сгенерировались, делаем ручками
-                e => ConvertPriorityToString(e), // enum -> БД
-                e => ConvertStringToPriority(e)); // БД -> enum
-
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .HasDefaultValueSql("'active'::character varying")
-                .HasColumnName("status")
-                .HasConversion( // enum не сгенерировался, тоже для конвертации
-                e => ConvertStatusToString(e), // enum -> БД
-                e => ConvertStringToStatus(e)); // БД -> enum
-
-            entity.Property(e => e.TagId).HasColumnName("tag_id");
-            entity.Property(e => e.Title)
-                .HasMaxLength(500)
-                .HasColumnName("title");
-
-            entity.HasOne(d => d.Tag).WithMany(p => p.UserTasks)
-                .HasForeignKey(d => d.TagId)
-                .HasConstraintName("user_tasks_tag_id_fkey");
-        });
-
-        modelBuilder.Entity<TelegramBinding>(entity =>
+        private static string ConvertStatusToString(TasksStatus status)
         {
-            entity.HasKey(e => e.Id).HasName("telegram_bindings_pkey");
+            return status switch
+            {
+                TasksStatus.Active => "active",
+                TasksStatus.Completed => "completed",
+                TasksStatus.Cancelled => "cancelled",
+                _ => throw new ArgumentOutOfRangeException(nameof(status), status, "Неизвестный статус")
+            };
+        }
 
-            entity.ToTable("telegram_bindings");
+        private static TasksStatus ConvertStringToStatus(string value)
+        {
+            return value switch
+            {
+                "active" => TasksStatus.Active,
+                "completed" => TasksStatus.Completed,
+                "cancelled" => TasksStatus.Cancelled,
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, "Неизвестный статус в БД")
+            };
+        }
 
-            entity.HasIndex(e => e.TelegramChatId, "idx_telegram_bindings_chat_id");
+        private static string ConvertUserTokenTypeToString(UserTokenType tokenType)
+        {
+            return tokenType switch
+            {
+                UserTokenType.EmailConfirm => "email_confirm",
+                UserTokenType.PasswordReset => "password_reset",
+                _ => throw new ArgumentOutOfRangeException(nameof(tokenType), tokenType, "Неизвестный тип токена")
+            };
+        }
 
-            entity.HasIndex(e => e.BindCode, "idx_telegram_bindings_code");
-
-            entity.HasIndex(e => e.UserId, "idx_telegram_bindings_user_id");
-
-            entity.HasIndex(e => e.BindCode, "telegram_bindings_bind_code_key").IsUnique();
-
-            entity.HasIndex(e => e.TelegramChatId, "telegram_bindings_telegram_chat_id_key").IsUnique();
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.BindCode)
-                .HasMaxLength(64)
-                .HasColumnName("bind_code");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_at");
-            entity.Property(e => e.TelegramChatId).IsRequired(false).HasColumnName("telegram_chat_id");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.User).WithMany(p => p.TelegramBindings)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("telegram_bindings_user_id_fkey");
-        });
+        private static UserTokenType ConvertStringToUserTokenType(string value)
+        {
+            return value switch
+            {
+                "email_confirm" => UserTokenType.EmailConfirm,
+                "password_reset" => UserTokenType.PasswordReset,
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, "Неизвестный тип токена")
+            };
+        }
     }
-
-    // Вспомогательные методы для конвертации enum
-    private static string ConvertPriorityToString(PriorityStatus priority)
-    {
-        return priority switch
-        {
-            PriorityStatus.Low => "low",
-            PriorityStatus.Medium => "medium",
-            PriorityStatus.High => "high",
-            PriorityStatus.Critical => "critical",
-            _ => throw new ArgumentOutOfRangeException(nameof(priority), priority, "Неизвестный приоритет")
-        };
-    }
-
-    private static PriorityStatus ConvertStringToPriority(string value)
-    {
-        return value switch
-        {
-            "low" => PriorityStatus.Low,
-            "medium" => PriorityStatus.Medium,
-            "high" => PriorityStatus.High,
-            "critical" => PriorityStatus.Critical,
-            _ => throw new ArgumentOutOfRangeException(nameof(value), value, "Неизвестный приоритет в БД")
-        };
-    }
-
-    private static string ConvertStatusToString(TasksStatus status)
-    {
-        return status switch
-        {
-            TasksStatus.Active => "active",
-            TasksStatus.Completed => "completed",
-            TasksStatus.Cancelled => "cancelled",
-            _ => throw new ArgumentOutOfRangeException(nameof(status), status, "Неизвестный статус")
-        };
-    }
-
-    private static TasksStatus ConvertStringToStatus(string value)
-    {
-        return value switch
-        {
-            "active" => TasksStatus.Active,
-            "completed" => TasksStatus.Completed,
-            "cancelled" => TasksStatus.Cancelled,
-            _ => throw new ArgumentOutOfRangeException(nameof(value), value, "Неизвестный статус в БД")
-        };
-    }
-}

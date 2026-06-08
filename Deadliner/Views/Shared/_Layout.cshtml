@@ -34,11 +34,31 @@
 
     <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
 
+    <link rel="stylesheet" href="~/css/cosmic.css" asp-append-version="true" />
+
     @RenderSection("Styles", required: false)
 
 </head>
 
 <body>
+
+    <div class="scroll-progress" aria-hidden="true"></div>
+
+    <div class="cosmic-bg" aria-hidden="true">
+
+        <canvas class="cosmic-bg__canvas"></canvas>
+
+        <div class="cosmic-bg__grid"></div>
+
+        <div class="cosmic-bg__orb cosmic-bg__orb--1"></div>
+
+        <div class="cosmic-bg__orb cosmic-bg__orb--2"></div>
+
+        <div class="cosmic-bg__orb cosmic-bg__orb--3"></div>
+
+    </div>
+
+    <div class="cursor-glow" aria-hidden="true"></div>
 
     <div class="layout">
 

@@ -8,6 +8,26 @@
 <div class="auth-container">
     <h1 class="auth-title">Вход в аккаунт</h1>
 
+    @if (TempData["Message"] != null)
+    {
+        <div class="validation-summary-success">@TempData["Message"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="validation-summary-errors">@TempData["Error"]</div>
+    }
+
+    @if (ViewBag.NeedConfirmation == true)
+    {
+        <div class="validation-summary-errors">
+            Email не подтверждён. Проверьте почту или запросите письмо повторно.
+        </div>
+        <form asp-action="ResendConfirmation" method="post" class="resend-form">
+            <input type="hidden" name="email" value="@ViewBag.ConfirmationEmail" />
+            <button type="submit" class="btn-submit btn-resend">Отправить письмо повторно</button>
+        </form>
+    }
+
     <form asp-action="Login" method="post">
         <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
 
@@ -26,6 +46,10 @@
         <div class="form-check">
             <input asp-for="RememberMe" type="checkbox" />
             <label asp-for="RememberMe">Запомнить меня</label>
+        </div>
+
+        <div class="form-group">
+            <a asp-action="ForgotPassword" class="forgot-link">Забыли пароль?</a>
         </div>
 
         <button type="submit" class="btn-submit">Войти</button>

@@ -16,8 +16,17 @@
     <link rel="stylesheet" href="~/css/components.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/animations.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/cosmic.css" asp-append-version="true" />
 </head>
 <body class="auth-body">
+    <div class="cosmic-bg" aria-hidden="true">
+        <canvas class="cosmic-bg__canvas"></canvas>
+        <div class="cosmic-bg__grid"></div>
+        <div class="cosmic-bg__orb cosmic-bg__orb--1"></div>
+        <div class="cosmic-bg__orb cosmic-bg__orb--2"></div>
+        <div class="cosmic-bg__orb cosmic-bg__orb--3"></div>
+    </div>
+    <div class="cursor-glow" aria-hidden="true"></div>
     <button type="button" class="theme-toggle theme-toggle--auth" aria-label="Переключить тему" aria-pressed="false" title="Переключить тему">
         <span class="theme-toggle__track">
             <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">

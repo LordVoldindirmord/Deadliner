@@ -50,6 +50,19 @@
     --theme-toggle-border: #d1d5db;
     --theme-toggle-thumb: #ffffff;
     --theme-toggle-icon: #6b7280;
+    --color-glass-bg: rgba(255, 255, 255, 0.78);
+    --glass-blur: 16px;
+    --glass-shadow: 0 4px 24px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    --glass-shadow-hover: 0 12px 40px rgba(74, 108, 247, 0.12);
+    --cosmic-accent-1: #4a6cf7;
+    --cosmic-accent-2: #9333ea;
+    --cosmic-accent-3: #0891b2;
+    --cosmic-glow-soft: rgba(74, 108, 247, 0.25);
+    --cosmic-cursor-glow: rgba(74, 108, 247, 0.12);
+    --cosmic-border-hover: rgba(74, 108, 247, 0.35);
+    --cosmic-card-glow: 0 0 40px rgba(74, 108, 247, 0.08);
+    --cosmic-btn-glow: rgba(74, 108, 247, 0.35);
+    --cosmic-grid-color: rgba(74, 108, 247, 0.04);
 }
 
 [data-theme="dark"] {
@@ -103,6 +116,19 @@
     --theme-toggle-border: #3a4155;
     --theme-toggle-thumb: #6b8cff;
     --theme-toggle-icon: #eef0f6;
+    --color-glass-bg: rgba(22, 25, 34, 0.72);
+    --glass-blur: 20px;
+    --glass-shadow: 0 4px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    --glass-shadow-hover: 0 16px 48px rgba(107, 140, 255, 0.18);
+    --cosmic-accent-1: #6b8cff;
+    --cosmic-accent-2: #a78bfa;
+    --cosmic-accent-3: #22d3ee;
+    --cosmic-glow-soft: rgba(107, 140, 255, 0.35);
+    --cosmic-cursor-glow: rgba(107, 140, 255, 0.15);
+    --cosmic-border-hover: rgba(107, 140, 255, 0.45);
+    --cosmic-card-glow: 0 0 60px rgba(107, 140, 255, 0.12);
+    --cosmic-btn-glow: rgba(107, 140, 255, 0.45);
+    --cosmic-grid-color: rgba(107, 140, 255, 0.06);
 }
 
 html {

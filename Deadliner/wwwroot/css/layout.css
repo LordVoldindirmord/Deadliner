@@ -93,7 +93,7 @@
 .main {
     flex: 1;
     padding: 24px;
-    background-color: var(--color-bg);
+    background-color: transparent;
     transition: background-color 0.35s ease;
 }
 

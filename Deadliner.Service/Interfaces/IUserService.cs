@@ -36,5 +36,29 @@ namespace Deadliner.Service.Interfaces
         /// <param name="userId">Id пользователя для удаления</param>
         /// <returns>Успешность удаления пользователя</returns>
         Task<BaseResponse<bool>> DeleteAsync(int userId);
+
+        /// <summary>
+        /// Подтвердить email по токену из письма
+        /// </summary>
+        /// <param name="token">Токен</param>
+        Task<BaseResponse<bool>> ConfirmEmailAsync(string token);
+
+        /// <summary>
+        /// Запросить сброс пароля — отправить ссылку на email
+        /// </summary>
+        /// <param name="email">Email</param>
+        Task<BaseResponse<bool>> ForgotPasswordAsync(string email);
+
+        /// <summary>
+        /// Сбросить пароль по токену из письма
+        /// </summary>
+        /// <param name="token">Токен</param>
+        /// <param name="newPassword">Новый пароль</param>
+        Task<BaseResponse<bool>> ResetPasswordAsync(string token, string newPassword);
+
+        /// <summary>
+        /// Повторно отправить письмо для подтверждения email
+        /// </summary>
+        Task<BaseResponse<bool>> ResendConfirmationAsync(string loginOrEmail);
     }
 }
