@@ -372,7 +372,7 @@ public class UserServiceTests
     [Fact]
     public async Task ForgotPasswordAsync_WhenUserExists_SendsResetEmail()
     {
-        var user = new User { Id = 1, Login = "artem", Email = "artem@test.com" };
+        var user = new User { Id = 1, Login = "artem", Email = "artem@test.com", EmailConfirmed = true };
         _userRepositoryMock.Setup(r => r.GetByEmailAsync("artem@test.com")).ReturnsAsync(user);
 
         var result = await _sut.ForgotPasswordAsync("artem@test.com");
@@ -393,6 +393,7 @@ public class UserServiceTests
     public async Task ResetPasswordAsync_WhenTokenValid_UpdatesPassword()
     {
         const string newPassword = "newPassword123";
+
         var userToken = new UserToken
         {
             Id = 1,
@@ -408,6 +409,7 @@ public class UserServiceTests
             Login = "artem",
             Email = "artem@test.com",
             PasswordHash = BCrypt.Net.BCrypt.HashPassword("old"),
+            EmailConfirmed = true,
         };
         _userTokenRepositoryMock.Setup(r => r.GetByTokenAsync("reset")).ReturnsAsync(userToken);
         _userRepositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(user);

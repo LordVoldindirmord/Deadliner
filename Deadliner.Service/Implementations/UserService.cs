@@ -208,6 +208,9 @@ namespace Deadliner.Service.Implementations
                 if (user == null)
                     return CreatorResponse.NotFound<bool>("Пользователь с таким Email не найден");
 
+                if (!user.EmailConfirmed)
+                    return CreatorResponse.Conflict<bool>("Email не подтверждён. Сначала подтвердите почту.");
+
                 var token = Guid.NewGuid().ToString("N");
 
                 var userToken = new UserToken
@@ -260,6 +263,9 @@ namespace Deadliner.Service.Implementations
                 var user = await _userRepository.GetByIdAsync(userToken.UserId);
                 if (user == null)
                     return CreatorResponse.NotFound<bool>("Пользователь не найден");
+
+                if (!user.EmailConfirmed)
+                    return CreatorResponse.Conflict<bool>("Нельзя сбросить пароль без подтверждения почты");
 
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
                 userToken.IsUsed = true;
