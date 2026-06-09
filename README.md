@@ -42,6 +42,7 @@
 
 
 **Формирование PDF отчета (сам отчет)**
+
 <img width="668" height="1029" alt="image" src="https://github.com/user-attachments/assets/7cb18b09-1a62-4620-b8fd-058df0d003e3" />
 
 
