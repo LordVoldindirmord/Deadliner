@@ -36,7 +36,8 @@
 
 
 **Формирование PDF отчета (выбор дат):**
-<img width="469" height="331" alt="image" src="https://github.com/user-attachments/assets/362cc546-df91-4438-81f6-043d1af76e91" />
+<img width="1920" height="408" alt="image" src="https://github.com/user-attachments/assets/99f62a57-dfa8-4f55-a784-a9c076421cae" />
+
 
 
 
