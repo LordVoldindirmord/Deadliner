@@ -15,6 +15,7 @@
 * UI: Razor Views.
 * тестирование: xUnit, Moq
 * отправка писем: MailKit, SMTP (Mail.ru)
+* генерация PDF: QuestPDF
 
 
 
@@ -30,7 +31,17 @@
 
 
 **Дашборд:**
-<img width="1917" height="1072" alt="image" src="https://github.com/user-attachments/assets/63d005db-49df-499f-8137-b36e08a20b1a" />
+<img width="1920" height="1077" alt="{BD8A94EB-2242-46B8-BBC0-1BEBAF4A28D4}" src="https://github.com/user-attachments/assets/47da93e0-bdee-4657-b8b5-0d629ae75ce3" />
+
+
+
+**Формирование PDF отчета (выбор дат):**
+<img width="469" height="331" alt="image" src="https://github.com/user-attachments/assets/362cc546-df91-4438-81f6-043d1af76e91" />
+
+
+
+**Формирование PDF отчета (сам отчет)**
+<img width="668" height="1029" alt="image" src="https://github.com/user-attachments/assets/7cb18b09-1a62-4620-b8fd-058df0d003e3" />
 
 
 
@@ -103,6 +114,7 @@
    * Привязка Telegram-аккаунта: генерация одноразовой глубокой ссылки, активация через бота.
    * Подтверждение email при регистрации (отправка письма со ссылкой, повторная отправка).
    * Восстановление пароля через email (отправка ссылки для сброса).
+   * Экспорт задач в PDF-отчёт (скачивание файла с выбором даты и полным списком задач, которые входят в заданный диапазон дат).
 2. **Telegram-бот:**
 
    * Привязка аккаунта через глубокую ссылку с сайта.
