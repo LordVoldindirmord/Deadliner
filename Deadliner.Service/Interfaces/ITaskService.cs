@@ -64,5 +64,14 @@ namespace Deadliner.Service.Interfaces
         /// <param name="taskId">Id задачи для удаления</param>
         /// <returns></returns>
         Task<BaseResponse<bool>> DeleteAsync(int userId, int taskId);
+
+        /// <summary>
+        /// Сгенерировать PDF-планер с задачами пользователя за указанный период
+        /// </summary>
+        /// <param name="userId">Id пользователя</param>
+        /// <param name="fromDate">Начало периода</param>
+        /// <param name="toDate">Конец периода</param>
+        /// <returns>Pdf документ</returns>
+        Task<BaseResponse<byte[]>> GeneratePdfAsync(int userId, DateTime fromDate, DateTime toDate);
     }
 }

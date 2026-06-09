@@ -2,6 +2,9 @@ using Deadliner.ASP.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Лицензия QuestPDF
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
 // Куки
 builder.Services.AddDeadlinerAuthentication();
 // Add services to the container.

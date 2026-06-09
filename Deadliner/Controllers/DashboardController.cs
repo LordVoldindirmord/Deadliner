@@ -35,5 +35,21 @@ namespace Deadliner.ASP.Controllers
 
             return View(response.Data);
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> DownloadPdf(DateTime fromDate, DateTime toDate)
+        {
+            var response = await _taskService.GeneratePdfAsync(this.GetUserId(), fromDate, toDate);
+
+            if (!response.IsSuccess || response.Data == null)
+            {
+                TempData["Error"] = response.Description ?? "Ошибка при создании PDF";
+                return RedirectToAction("Dashboard");
+            }
+
+            return File(response.Data, "application/pdf",
+                $"Deadliner_Planner_{fromDate:yyyy-MM-dd}_{toDate:yyyy-MM-dd}.pdf");
+        }
     }
 }

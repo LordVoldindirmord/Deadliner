@@ -5,16 +5,68 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/date-picker.css" asp-append-version="true" />
 }
 
 <div class="dashboard">
+    @if (TempData["Error"] != null)
+    {
+        <div class="validation-summary-errors">@TempData["Error"]</div>
+    }
     @if (!ViewData.ModelState.IsValid)
     {
         <div asp-validation-summary="All" class="validation-summary-errors"></div>
     }
     <div class="dashboard__header">
         <h1 class="dashboard__title">Дашборд</h1>
-        <a class="btn btn--primary" asp-controller="Task" asp-action="Create">+ Новая задача</a>
+        <div class="dashboard__actions">
+            <form class="planner-form" asp-action="DownloadPdf" method="get">
+                <span class="planner-form__label">Планер:</span>
+                <div class="date-picker" data-date-picker>
+                    <input type="hidden" name="fromDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                    <button type="button" class="date-picker__trigger" aria-label="Дата начала"></button>
+                    <div class="date-picker__popup" hidden>
+                        <div class="date-picker__header">
+                            <span class="date-picker__month"></span>
+                            <div class="date-picker__nav">
+                                <button type="button" class="date-picker__prev" aria-label="Предыдущий месяц">‹</button>
+                                <button type="button" class="date-picker__next" aria-label="Следующий месяц">›</button>
+                            </div>
+                        </div>
+                        <div class="date-picker__weekdays">
+                            @foreach (var day in new[] { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" })
+                            {
+                                <span class="date-picker__weekday">@day</span>
+                            }
+                        </div>
+                        <div class="date-picker__grid"></div>
+                    </div>
+                </div>
+                <span class="planner-form__sep">—</span>
+                <div class="date-picker" data-date-picker>
+                    <input type="hidden" name="toDate" value="@DateTime.Today.AddDays(6).ToString("yyyy-MM-dd")" required />
+                    <button type="button" class="date-picker__trigger" aria-label="Дата окончания"></button>
+                    <div class="date-picker__popup" hidden>
+                        <div class="date-picker__header">
+                            <span class="date-picker__month"></span>
+                            <div class="date-picker__nav">
+                                <button type="button" class="date-picker__prev" aria-label="Предыдущий месяц">‹</button>
+                                <button type="button" class="date-picker__next" aria-label="Следующий месяц">›</button>
+                            </div>
+                        </div>
+                        <div class="date-picker__weekdays">
+                            @foreach (var day in new[] { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" })
+                            {
+                                <span class="date-picker__weekday">@day</span>
+                            }
+                        </div>
+                        <div class="date-picker__grid"></div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn--primary btn--small">Скачать PDF</button>
+            </form>
+            <a class="btn btn--primary" asp-controller="Task" asp-action="Create">+ Новая задача</a>
+        </div>
     </div>
 
     @if (Model.TaskGroups == null || !Model.TaskGroups.Any())
@@ -104,6 +156,7 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/date-picker.js" asp-append-version="true"></script>
     <script>
         function changeLimit(delta) {
             const input = document.getElementById('limitInput');
